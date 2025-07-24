@@ -12,7 +12,8 @@ async function runMigrations() {
     await client.connect();
     console.log('PostgreSQL connection successful. Starting Migration...');
 
-    const sql = fs.readFileSync(path.join(__dirname, 'create-tables.sql'), 'utf-8');
+    const sql = fs.readFileSync('migrations/create-tables.sql', 'utf-8');
+
     await client.query(sql);
 
     console.log('Migration completed!');
