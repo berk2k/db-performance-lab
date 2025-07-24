@@ -2,8 +2,6 @@
 
 This project is built to **learn, test, and document PostgreSQL database performance** under real-world conditions.
 
-The core idea is to simulate operations like inserts and queries on large datasets (100K+ records), with and without indexes, and benchmark how performance changes.
-
 ---
 
 ## ✅ Goal
