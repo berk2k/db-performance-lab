@@ -12,11 +12,11 @@ Understand how indexing, batch size, data volume, and query type affect performa
 
 ## 🔎 Insert Benchmark: Insert Performance: Index vs No Index
 
-With out index:
+No Index:
 
 ![benchmark](./benchmark_screenshots/insert_wo_index.PNG)
 
-With index:
+Index:
 
 ![benchmark](./benchmark_screenshots/insert_w_index.PNG)
 
@@ -52,3 +52,24 @@ With index: The operation took slightly longer because PostgreSQL had to maintai
 ## 🔎 SELECT Benchmark: Index vs No Index
 
 We executed 1000 SELECT queries filtering by `user_id` and `amount`, ordered by `created_at DESC`.
+
+No Index:
+
+![benchmark](./benchmark_screenshots/select_wo_index.PNG)
+
+Index:
+
+![benchmark](./benchmark_screenshots/select_w_index.PNG)
+
+---
+
+## 📈 Result & Interpretation
+
+In this benchmark:
+
+- **No Index:** PostgreSQL performed full table scans.  
+- **Index:** PostgreSQL utilized a composite index `(user_id, amount, created_at)` and drastically improved performance.
+
+🧠 Queries were approximately **93.7% faster** with the index in place.
+
+➡️ This shows that indexes are crucial for read-heavy operations involving filters and ordering.
