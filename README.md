@@ -82,3 +82,39 @@ In this benchmark:
 | Disabled     | 1,000       | 26.386 s       | Baseline (Full table scan) |
 | Enabled      | 1,000       | 1.651 s        | \~93.7% faster with index  |
 
+---
+
+## 📊 Join Performance Benchmark
+I performed two types of JOIN queries on the transactions and users tables to measure the impact of unnecessary JOINs on query performance.
+
+Test Case	Execution Time (for 1000 queries)
+
+Simple JOIN	1.857 seconds
+
+query = `
+      SELECT t.id, t.amount, u.name
+      FROM transactions t
+      JOIN users u ON t.user_id = u.id
+      WHERE t.status = 'COMPLETED'
+      LIMIT 100;
+    `
+
+Unnecessary JOIN	2.320 seconds
+
+query = `
+      SELECT t.id, t.amount, u.name, u.email
+      FROM transactions t
+      JOIN users u ON t.user_id = u.id
+      LEFT JOIN users u2 ON u2.id = t.user_id
+      WHERE t.status = 'COMPLETED'
+      LIMIT 100;
+    `
+
+## 📝 Analysis
+Simple JOIN: This query joins transactions with users once, fetching only necessary fields.
+
+Unnecessary JOIN: This query performs an extra, redundant JOIN to the same users table without using the additional data, causing extra overhead.
+
+## 🔍 Conclusion
+Unnecessary JOINs increase query execution time by approximately 25% in this test case. Avoid redundant JOINs to maintain optimal database performance.
+
