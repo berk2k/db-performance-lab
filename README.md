@@ -29,7 +29,7 @@ Without index: The operation completed faster since PostgreSQL only had to write
 
 With index: The operation took slightly longer because PostgreSQL had to maintain and update the index structure for each inserted row.
 
-## 🧪 Benchmark Metrics
+## 🧪 Insert Benchmark Metrics
 | Index Status | Total Records | Insert Duration | Difference        |
 | ------------ | ------------- | --------------- | ----------------- |
 | Disabled     | 100,000       | 1.923 seconds   | —                 |
@@ -73,3 +73,12 @@ In this benchmark:
 🧠 Queries were approximately **93.7% faster** with the index in place.
 
 ➡️ This shows that indexes are crucial for read-heavy operations involving filters and ordering.
+
+---
+
+## 🧪 Select Benchmark Metrics
+| Index Status | Query Count | Total Duration | Performance Improvement    |
+| ------------ | ----------- | -------------- | -------------------------- |
+| Disabled     | 1,000       | 26.386 s       | Baseline (Full table scan) |
+| Enabled      | 1,000       | 1.651 s        | \~93.7% faster with index  |
+
