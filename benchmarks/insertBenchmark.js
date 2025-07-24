@@ -8,8 +8,10 @@ const client = new Client({
 
 async function runBenchmark() {
   await client.connect();
-  const total = 100000;
-  const batchSize = 1000;
+
+  
+  const total = parseInt(process.argv[2], 10) || 100000;
+  const batchSize = parseInt(process.argv[3], 10) || 1000;
 
   try {
     console.log(`Starting insert benchmark: total ${total} records, batch size ${batchSize}`);
@@ -20,7 +22,7 @@ async function runBenchmark() {
     for (let i = 0; i < total; i += batchSize) {
       const values = [];
       const params = [];
-      for (let j = 0; j < batchSize; j++) {
+      for (let j = 0; j < batchSize && (i + j) < total; j++) {
         values.push(`($${params.length + 1}, $${params.length + 2}, $${params.length + 3}, $${params.length + 4})`);
         params.push(
           Math.floor(Math.random() * 1000),
