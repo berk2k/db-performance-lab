@@ -10,7 +10,7 @@ Understand how indexing, batch size, data volume, and query type affect performa
 
 ---
 
-# 🧪 Benchmark 1: Insert Performance (With vs Without Index)
+## 🔎 Insert Benchmark: Insert Performance: Index vs No Index
 
 With out index:
 
@@ -46,3 +46,9 @@ With index: The operation took slightly longer because PostgreSQL had to maintai
 ➡️ For write-heavy tables, index usage should be carefully planned. Consider deferring index creation until after bulk inserts are complete, or only keeping the most essential indexes.
 
 ⚠️ Keep in mind: Indexes greatly improve read/query performance. It’s always a trade-off between write speed and query efficiency, and the choice depends on your specific use case.
+
+---
+
+## 🔎 SELECT Benchmark: Index vs No Index
+
+We executed 1000 SELECT queries filtering by `user_id` and `amount`, ordered by `created_at DESC`.
