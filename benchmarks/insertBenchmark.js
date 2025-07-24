@@ -1,14 +1,13 @@
-const { Pool } = require('pg');
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'testdb',
-  password: 'yourpassword',
-  port: 5432,
+require('dotenv').config();
+
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
 });
 
 async function runBenchmark() {
-  const client = await pool.connect();
+  await client.connect();
   const total = 100000;
   const batchSize = 1000;
 
@@ -22,13 +21,12 @@ async function runBenchmark() {
       const values = [];
       const params = [];
       for (let j = 0; j < batchSize; j++) {
-        const index = i + j;
         values.push(`($${params.length + 1}, $${params.length + 2}, $${params.length + 3}, $${params.length + 4})`);
         params.push(
-          Math.floor(Math.random() * 1000),                 
-          (Math.random() * 1000).toFixed(2),                
-          Math.random() > 0.5 ? 'COMPLETED' : 'PENDING',   
-          'Benchmark transaction'                           
+          Math.floor(Math.random() * 1000),
+          (Math.random() * 1000).toFixed(2),
+          Math.random() > 0.5 ? 'COMPLETED' : 'PENDING',
+          'Benchmark transaction'
         );
       }
 
@@ -43,7 +41,7 @@ async function runBenchmark() {
     await client.query('ROLLBACK');
     console.error('Error during benchmark:', e);
   } finally {
-    client.release();
+    await client.end();
     process.exit(0);
   }
 }
